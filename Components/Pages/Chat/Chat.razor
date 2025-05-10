@@ -6,12 +6,12 @@
 @implements IDisposable
 
 <PageTitle>麻疹AI助手</PageTitle>
+<div>您好，請詢問麻疹防疫相關問題，AI生成內容可能不正確或疏漏，正確內容請參閱疾管署官方指引及工作手冊。</div>
 
 <ChatHeader OnNewChat="@ResetConversationAsync" />
 
 <ChatMessageList Messages="@messages" InProgressMessage="@currentResponseMessage">
     <NoMessagesContent>
-        <div>您好，請詢問麻疹防疫相關問題，AI生成內容可能不正確或疏漏，正確內容請參閱疾管署官方指引及工作手冊。</div>
         <ChatCitation File="麻疹防治工作手冊.pdf"/>
         <ChatCitation File="麻疹疫調、接觸者追蹤管理及群聚事件處理原則114年4月修訂.pdf"/>
         <ChatCitation File="麻疹病例定義暨防疫檢體採檢送驗事項.pdf"/>
