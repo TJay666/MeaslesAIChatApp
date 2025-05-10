@@ -12,7 +12,6 @@
 <ChatHeader OnNewChat="@ResetConversationAsync" />
 
 <ChatMessageList Messages="@messages" InProgressMessage="@currentResponseMessage">
-    <div>您好，請詢問麻疹防疫相關問題，AI生成內容可能不正確或疏漏，正確內容請參閱疾管署官方指引及工作手冊。</div>
     <NoMessagesContent>
         <ChatCitation File="麻疹防治工作手冊.pdf"/>
         <ChatCitation File="麻疹疫調、接觸者追蹤管理及群聚事件處理原則114年4月修訂.pdf"/>
@@ -27,6 +26,7 @@
 <div class="chat-container">
     <ChatSuggestions OnSelected="@AddUserMessageAsync" @ref="@chatSuggestions" />
     <ChatInput OnSend="@AddUserMessageAsync" @ref="@chatInput" />
+    <div>您好，請詢問麻疹防疫相關問題，AI生成內容可能不正確或疏漏，正確內容請參閱疾管署官方指引及工作手冊。</div>
     <SurveyPrompt /> @* Remove this line to eliminate the template survey message *@
 </div>
 
