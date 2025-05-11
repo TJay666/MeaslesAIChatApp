@@ -1,0 +1,5 @@
+{
+    "appService.preDeployTask": "publish-release",
+    "appService.deploySubpath": "bin\\Release\\net9.0\\publish",
+    "appService.defaultWebAppToDeploy": "/subscriptions/16125d1d-874c-4021-9054-9e3b4fd3d1d4/resourceGroups/appsvc_windows_eastasia/providers/Microsoft.Web/sites/measles-ai-chat-app-test"
+}
