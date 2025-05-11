@@ -9,11 +9,14 @@ on:
       - main
   workflow_dispatch:
 
+env: # 定義一個環境變數給整個 workflow 使用
+  AZURE_WEBAPP_PACKAGE_PATH: './publish_output' # 定義發佈輸出路徑
+
 jobs:
   build:
     runs-on: windows-latest
     permissions:
-      contents: read #This is required for actions/checkout
+      contents: read
 
     steps:
       - uses: actions/checkout@v4
@@ -21,19 +24,19 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.x'
+          dotnet-version: '9.x' # 請確保與您的專案目標框架一致
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+        run: dotnet publish -c Release -o ${{ env.AZURE_WEBAPP_PACKAGE_PATH }} # 使用定義好的輸出路徑
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }} # 上傳指定路徑的內容
 
   deploy:
     runs-on: windows-latest
@@ -42,15 +45,16 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
+      id-token: write
+      contents: read
 
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: .net-app
-      
+          path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }} # 下載到同一個相對路徑
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -64,5 +68,5 @@ jobs:
         with:
           app-name: 'measles-ai-chat-app-test'
           slot-name: 'Production'
-          package: .
+          package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }} # *** 這裡使用定義好的路徑 ***
           
